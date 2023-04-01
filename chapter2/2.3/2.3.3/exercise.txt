@@ -1,0 +1,39 @@
+# Exercise 2.3.3
+
+num -> thousand hungred tens digit 
+thousand -> low
+hungred -> low | 4 | high
+tens -> low | 4 | high
+digit -> low | 4 | high
+low -> 0 | 1 | 2 | 3
+high -> 5 | 6 | 7 | 8
+
+Translation scheme:
+
+num -> thousand hungred tens digit { num.roman = thousand.roman || hungred.roman || tens.roman || digit.roman; print(num.roman) }
+
+thousand -> low { thousand.roman = repeat("M", low.value) }
+
+hungred -> low { hungred.roman = repeat("C", low.value) }
+hungred -> 4 { hungred.roman = "CD" }
+hungred -> low { hungred.roman = "D" || repeat("C", high.value - 5) }
+
+tens -> low { tens.roman = repeat("X", low.value) }
+tens -> 4 { tens.roman = "XL" }
+tens -> low { tens.roman = "L" || repeat("X", high.value - 5) }
+
+digit -> low { digit.roman = repeat("I", low.value) }
+digit -> 4 { digit.roman = "IV" }
+digit -> low { digit.roman = "V" || repeat("I", high.value - 5) }
+
+low -> 0 { low.value = 0 }
+low -> 1 { low.value = 1 }
+low -> 2 { low.value = 2 }
+low -> 3 { low.value = 3 }
+
+high -> 5 { high.value = 5 }
+high -> 5 { high.value = 6 }
+high -> 5 { high.value = 7 }
+high -> 5 { high.value = 8 }
+high -> 5 { high.value = 9 }
+
