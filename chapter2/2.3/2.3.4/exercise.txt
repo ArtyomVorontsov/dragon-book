@@ -1,0 +1,56 @@
+Exercise 2.3.4
+
+expr -> thousand hungred tens digit
+
+thousand -> M | MM | MMM | e
+
+hungred -> C | CC | CCC | CD | D | DC | DCC | DCCC | CM | e
+
+tens -> X | XX | XXX | XL | L | LX | LXX | LXXX | XC | e
+
+digit -> I | II | III | IV | V | VI | VII | VIII | IX | e
+
+Translation scheme:
+
+expr -> thousand hungred tens digit { 
+	expr.decimal = thousand.decimal || hungred.decimal || tens.decimal || digit.decimal; print(expr.decimal) 
+}
+
+thousand -> M { thousand.decimal = 1 }
+thousand -> MM { thousand.decimal = 2 }
+thousand -> MMM { thousand.decimal = 3 }
+thousand -> e { thousand.decimal = 0 }
+
+hungred -> C { hungred.decimal = 1 }
+hungred -> CC { hungred.decimal = 2 }
+hungred -> CCC { hungred.decimal = 3 }
+hungred -> CD { hungred.decimal = 4 }
+hungred -> D { hungred.decimal = 5 }
+hungred -> DC { hungred.decimal = 6 }
+hungred -> DCC { hungred.decimal = 7 }
+hungred -> DCCC { hungred.decimal = 8 }
+hungred -> CM { hungred.decimal = 9 }
+hungred -> e { hungred.decimal = 0 }
+
+tens -> X { tens.decimal = 1 }
+tens -> XX { tens.decimal = 2 }
+tens -> XXX { tens.decimal = 3 }
+tens -> XL { tens.decimal = 4 }
+tens -> L { tens.decimal = 5 }
+tens -> LX { tens.decimal = 6 }
+tens -> LXX { tens.decimal = 7 }
+tens -> LXXX { tens.decimal = 8 }
+tens -> XC { tens.decimal = 9 }
+tens -> e { tens.decimal = 0 }
+
+digit -> I { digit.decimal = 1 }
+digit -> II { digit.decimal = 2 }
+digit -> III { digit.decimal = 3 }
+digit -> IV { digit.decimal = 4 }
+digit -> V { digit.decimal = 5 }
+digit -> VI { digit.decimal = 6 }
+digit -> VII { digit.decimal = 7 }
+digit -> VIII { digit.decimal = 8 }
+digit -> IX { digit.decimal = 9 }
+digit -> e { digit.decimal = 0 }
+
