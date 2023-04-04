@@ -1,0 +1,82 @@
+Exercise 2.3.5
+(postfix 1 and 2 is used just to differ production instances)
+
+root -> expr
+
+expr -> expr1 term + expr2 | 
+	expr1 term - expr2 | 
+	term
+
+term -> term fact * term |
+	term fact / term |
+	term
+
+fact -> digit | 
+	expr | 
+	e
+
+digit -> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+Translation scheme:
+
+root -> expr { root.value = expr.prefix; print(root.value) }
+
+expr -> expr1 term + expr2 { 
+	expr.prefix = expr2.op || '+' || expr1.prefix || term.prefix || expr2.digits, 
+	expr.op = '+',
+	expr.digits = expr1.digits || term.digits || expr2.prefix	
+}
+expr -> expr1 term - expr2 { 
+	expr.prefix = expr2.op || '-' || expr1.prefix || term.prefix || expr2.digits, 
+	expr.op = '-',
+	expr.digits = expr1.digits || term.digits || expr2.prefix	
+}
+expr -> term {
+	expr.prefix = term.prefix,
+	expr.op = term.op,
+	expr.digits = term.digits 
+}
+
+term -> term1 fact * term2 {
+	term.prefix = term2.op || '*' || term1.prefix || fact.prefix || term2.digits, 
+	term.op = '*',
+	term.digits = term1.digits || fact.digits || term2.prefix	
+}
+term -> term1 fact / term2 {
+	term.prefix = term2.op || '/' || term1.prefix || fact.prefix || term2.digits, 
+	term.op = '/',
+	term.digits = term1.digits || fact.digits || term2.prefix	
+}
+term -> fact {
+	term.prefix = fact.prefix,
+	term.op = fact.op,
+	term.digits = fact.digits 
+}
+
+fact -> digit {
+	fact.prefix = e,
+	fact.op = e,
+	fact.digit = digit.value
+}
+fact -> expr {
+	fact.prefix = expr.prefix,
+	fact.op = expr.op,
+	fact.digit = expr.digit
+}
+fact -> e {
+	fact.prefix = e,
+	fact.op = e,
+	fact.digit = e
+}
+
+digit -> 0 { digit.value = 0 }
+digit -> 1 { digit.value = 1 }
+digit -> 2 { digit.value = 2 }
+digit -> 3 { digit.value = 3 }
+digit -> 4 { digit.value = 4 }
+digit -> 5 { digit.value = 5 }
+digit -> 6 { digit.value = 6 }
+digit -> 7 { digit.value = 7 }
+digit -> 8 { digit.value = 8 }
+digit -> 9 { digit.value = 9 }
+
